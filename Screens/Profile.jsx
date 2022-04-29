@@ -142,6 +142,10 @@ const Profile = () => {
             { text: "fermer" },
             ]);
             fetchData();
+            await AsyncStorage.removeItem('user');
+            const jsonValue = JSON.stringify(result.data);
+            await AsyncStorage.setItem('user', jsonValue);
+            setChanged("updated");
             
         } else {
             Alert.alert("Error", result.message, [
@@ -159,107 +163,112 @@ const Profile = () => {
             colors={['rgba(166,223,240, 0.8)', 'transparent']}
             style={styles.background}
         />
-        <View style={{width: '100%', padding: 10}}>
-            <View style={{width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
-                <TouchableOpacity 
-                    style={{width: '25%'}}
-                    onPress={toggleDialog1}
-                >
-                    {image ?
-                        <Image  
-                            style={{width: '100%', height: 80, borderRadius: 150}}
-                            source={{ uri: image.uri }}
-                        /> 
-                    :
-                        <Image  
-                            style={{width: '100%', height: 80, borderRadius: 150}}
-                            source={{ uri: `${path}uploads/images/${avatar}`}}
-                        /> 
-                    }
-                </TouchableOpacity>
-                <TextInput
-                    style={{width: '33%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                    onChangeText={(text) => setNom(text)}
-                    value={nom}
-                    placeholderTextColor='#6d6e6e'
-                    placeholder="Nom"
-                    keyboardType="default"
-                />
-                <TextInput
-                    style={{width: '33%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                    onChangeText={(text) => setPrenom(text)}
-                    value={prenom}
-                    placeholderTextColor='#6d6e6e'
-                    placeholder="Prenom"
-                    keyboardType="default"
-                />
-            </View>
-            <View style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 10}}>
-                <TextInput
-                    style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                    // onChangeText={(text) => setEma({ prenom : text})}
-                    value={email}
-                    placeholderTextColor='#6d6e6e'
-                    placeholder="Email"
-                    keyboardType="default"
-                    editable={false}
-                />
+            <View style={{width: '100%', padding: 10}}>
+                <View style={{width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
+                    <TouchableOpacity 
+                        style={{width: '25%'}}
+                        onPress={toggleDialog1}
+                    >
+                        {image ?
+                            <Image  
+                                style={{width: '100%', height: 80, borderRadius: 150}}
+                                source={{ uri: image.uri }}
+                            /> 
+                        :
+                            <Image  
+                                style={{width: '100%', height: 80, borderRadius: 150}}
+                                source={{ uri: `${path}uploads/images/${avatar}`}}
+                            /> 
+                        }
+                    </TouchableOpacity>
+                    <TextInput
+                        style={{width: '33%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                        onChangeText={(text) => setNom(text)}
+                        value={nom}
+                        placeholderTextColor='#6d6e6e'
+                        placeholder="Nom"
+                        keyboardType="default"
+                        autoCapitalize='none'
+                    />
+                    <TextInput
+                        style={{width: '33%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                        onChangeText={(text) => setPrenom(text)}
+                        value={prenom}
+                        placeholderTextColor='#6d6e6e'
+                        placeholder="Prenom"
+                        keyboardType="default"
+                        autoCapitalize='none'
+                    />
+                </View>
+                <View style={{ width: '100%', display: 'flex', justifyContent: 'center', marginTop: 10}}>
+                    <TextInput
+                        style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                        // onChangeText={(text) => setEma({ prenom : text})}
+                        value={email}
+                        placeholderTextColor='#6d6e6e'
+                        placeholder="Email"
+                        keyboardType="default"
+                        editable={false}
+                        autoCapitalize='none'
+                    />
+                    
+                    <TextInput
+                        style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                        onChangeText={(text) => setTel(text)}
+                        value={tel}
+                        placeholderTextColor='#6d6e6e'
+                        placeholder={`${tel}`}
+                        keyboardType="default"
+                        autoCapitalize='none'
+                    />
                 
-                <TextInput
-                    style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                    onChangeText={(text) => setTel(text)}
-                    value={tel}
-                    placeholderTextColor='#6d6e6e'
-                    placeholder={`${tel}`}
-                    keyboardType="default"
-                />
-            
-                <TextInput
-                    style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                    onChangeText={(text) => setPassword(text)}
-                    // value={data.email}
-                    placeholderTextColor='#6d6e6e'
-                    placeholder="Password"
-                    keyboardType="default"
-                    secureTextEntry
-                />
-            </View>
-            <TouchableOpacity 
-                    style={{width: "40%", alignSelf: 'center', backgroundColor: '#219EBA',  paddingVertical: "3%", marginTop: "5%", alignSelf: 'flex-start', borderRadius: 5}}
-                    onPress={Submit}
-                >
-                    <Text style={{fontWeight: '900', color: 'white', alignSelf: 'center', fontSize: 16}}>Save</Text>
-                </TouchableOpacity>
+                    <TextInput
+                        style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                        onChangeText={(text) => setPassword(text)}
+                        // value={data.email}
+                        placeholderTextColor='#6d6e6e'
+                        placeholder="Password"
+                        keyboardType="default"
+                        secureTextEntry
+                        autoCapitalize='none'
+                    />
+                </View>
+                <TouchableOpacity 
+                        style={{width: "40%", alignSelf: 'center', backgroundColor: '#219EBA',  paddingVertical: "3%", marginTop: "5%", alignSelf: 'flex-start', borderRadius: 5}}
+                        onPress={Submit}
+                    >
+                        <Text style={{fontWeight: '900', color: 'white', alignSelf: 'center', fontSize: 16}}>Save</Text>
+                    </TouchableOpacity>
 
-        </View>
-        <FAB
-            style={styles.fab}
-            // small
-            icon="logout"
-            color='#fff'
-            onPress={logout}
-            // onPress={() => console.log('Pressed')}
-        />
-        <Dialog
-            isVisible={visible1}
-            onBackdropPress={toggleDialog1}
-        >
-            <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', padding:0, margin: 0}}>
-                <TouchableOpacity
-                    onPress={pickImage}
-                >
-                    <Ionicons name='image-outline' size={45}  />
-                    <Text>Gellery</Text>
-                </TouchableOpacity>
-                <View style={{height: '100%', borderWidth: 1, borderColor: 'grey'}} />
-                <TouchableOpacity
-                    onPress={pickCamera}
-                >
-                    <Ionicons name='camera-outline' size={45}  />
-                    <Text>Camera</Text>
-                </TouchableOpacity>
             </View>
-        </Dialog>
+            <FAB
+                style={styles.fab}
+                // small
+                icon="logout"
+                color='#fff'
+                onPress={logout}
+                // onPress={() => console.log('Pressed')}
+            />
+            <Dialog
+                isVisible={visible1}
+                onBackdropPress={toggleDialog1}
+            >
+                <View style={{display: 'flex', flexDirection: 'row', justifyContent: 'space-evenly', padding:0, margin: 0}}>
+                    <TouchableOpacity
+                        onPress={pickImage}
+                    >
+                        <Ionicons name='image-outline' size={45}  />
+                        <Text>Gellery</Text>
+                    </TouchableOpacity>
+                    <View style={{height: '100%', borderWidth: 1, borderColor: 'grey'}} />
+                    <TouchableOpacity
+                        onPress={pickCamera}
+                    >
+                        <Ionicons name='camera-outline' size={45}  />
+                        <Text>Camera</Text>
+                    </TouchableOpacity>
+                </View>
+            </Dialog>
     </SafeAreaView>
   )
 }

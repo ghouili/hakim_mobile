@@ -88,6 +88,7 @@ const LogIn = ({ navigation }) => {
               placeholderTextColor='#919191'
               onChangeText={(texte)=> setEmail(texte)}
               keyboardType='email-address'
+              autoCapitalize='none'
               
             />
           </Card> 
@@ -102,6 +103,7 @@ const LogIn = ({ navigation }) => {
               placeholderTextColor='#919191'
               secureTextEntry
               onChangeText={(texte)=> setPassword(texte)}
+              autoCapitalize='none'
             />
           </Card> 
 

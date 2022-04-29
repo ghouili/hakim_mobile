@@ -39,6 +39,7 @@ const SignUp = ({ navigation }) => {
             style={{fontSize: 16}}
             placeholder='Nom' 
             placeholderTextColor='#919191'
+            autoCapitalize='none'
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -49,6 +50,7 @@ const SignUp = ({ navigation }) => {
             style={{fontSize: 16}}
             placeholder='Prenom' 
             placeholderTextColor='#919191'
+            autoCapitalize='none'
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -59,6 +61,7 @@ const SignUp = ({ navigation }) => {
             style={{fontSize: 16}}
             placeholder='Adress' 
             placeholderTextColor='#919191'
+            autoCapitalize='none'
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -69,6 +72,7 @@ const SignUp = ({ navigation }) => {
             style={{fontSize: 16}}
             placeholder='Email' 
             placeholderTextColor='#919191'
+            autoCapitalize='none'
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -79,6 +83,7 @@ const SignUp = ({ navigation }) => {
             style={{fontSize: 16}}
             placeholder='Phone Number' 
             placeholderTextColor='#919191'
+            autoCapitalize='none'
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -89,6 +94,7 @@ const SignUp = ({ navigation }) => {
             style={{fontSize: 16}}
             placeholder='Password' 
             placeholderTextColor='#919191'
+            autoCapitalize='none'
           />
         </Card> 
 
