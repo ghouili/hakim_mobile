@@ -4,10 +4,12 @@ import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Octicons from 'react-native-vector-icons/Octicons';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Home from '../Screens/Home';
 import ReclamNav from './ReclamNav';
 import Suggestion from '../Screens/Suggestion';
+import Profile from '../Screens/Profile';
 
 const Tab = createBottomTabNavigator();
 
@@ -45,6 +47,16 @@ const BottomTabNav = () => {
             tabBarLabel: 'Suggestion',
             tabBarIcon: ({ color, size }) => (
               <FontAwesome name="lightbulb-o" color={color} size={size} />
+            ),
+        }}
+      />
+      
+      <Tab.Screen name="Profile"
+        component={Profile}
+        options={{
+            tabBarLabel: 'Profile',
+            tabBarIcon: ({ color, size }) => (
+              <MaterialCommunityIcons name="account-edit" color={color} size={size} />
             ),
         }}
       />

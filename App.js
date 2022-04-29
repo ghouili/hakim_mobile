@@ -7,7 +7,7 @@ import MainStack from './Navigations/MainStack';
 
 export default function App() {
 
-  global.path = 'http://192.168.1.100:4000/'
+  global.path = 'http://192.168.1.101:4000/'
 
   return (
     <ProviderContext>

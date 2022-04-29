@@ -1,4 +1,4 @@
-import React, {useState, useContext } from 'react';
+import React, {useState, useContext, useEffect } from 'react';
 import { View, Text, Image, Dimensions, TouchableOpacity, ScrollView, TextInput, Alert, StyleSheet } from 'react-native';
 
 import { LinearGradient } from 'expo-linear-gradient';
@@ -15,9 +15,12 @@ import { MainContext } from '../../Hooks/Context/MainContext';
 const WindowWidth = Dimensions.get('window').width;
 const WindowHeight = Dimensions.get('window').height;
 
-const AddReclamation = ({ navigation }) => {
+const EditReclamation = ({ route, navigation }) => {
+
+    let { id } = route.params;
 
     const { auth } = useContext(MainContext);
+    const [new_image, setNew_image] = useState(null);
     const [image, setImage] = useState(null);
     const [product, setProduct] = useState('');
     const [nbr, setNbr] = useState('');
@@ -25,6 +28,37 @@ const AddReclamation = ({ navigation }) => {
     const [type, setType] = useState('');
     const [place, setPlace] = useState();
     const [autre_text, setAutre_text] = useState('');
+
+    const fetchData = async () => {
+
+        let result = await fetch(`${path}reclamation/${id}`);
+
+        let resultData = await result.json();
+        // console.log('id sent : ' + route.params.id);
+
+        if (resultData.success === true ){
+            
+            setImage(resultData.data.image);
+            setProduct(resultData.data.product);
+            setNbr(resultData.data.nbr);
+            setProblem(resultData.data.problem);
+            setType(resultData.data.type);
+            setPlace(resultData.data.place);
+            // setAutre_text(resultData.data.type);
+        } else {
+            Alert.alert(
+                'ERROR',
+                "Something went Wrng",
+                [{ text: 'fermer' }]
+            );
+        }
+
+    }
+
+    useEffect(() => {
+
+        fetchData();
+    }, [])
 
     const pickImage = async () => {
         // No permissions request is necessary for launching the image library
@@ -38,7 +72,7 @@ const AddReclamation = ({ navigation }) => {
         console.log(result);
     
         if (!result.cancelled) {
-          setImage(result);
+            setNew_image(result);
         }
     };
     
@@ -54,21 +88,24 @@ const AddReclamation = ({ navigation }) => {
         console.log(result);
     
         if (!result.cancelled) {
-          setImage(result);
+            setNew_image(result);
         }
     };
 
     const Submit = async () => {
 
-        const url = `${path}reclamation/add`;
-        const fileUri = image.uri;
-        const newImageUri = "file:///" + fileUri.split("file:/").join("");
+        const url = `${path}reclamation/${id}`;
+
         const formData = new FormData();
-        formData.append("image", {
-        uri: newImageUri,
-        type: mime.getType(newImageUri),
-        name: newImageUri.split("/").pop(),
-        });
+        if(new_image) {
+            const fileUri = new_image.uri;
+            const newImageUri = "file:///" + fileUri.split("file:/").join("");
+            formData.append("image", {
+            uri: newImageUri,
+            type: mime.getType(newImageUri),
+            name: newImageUri.split("/").pop(),
+            });
+        }
         formData.append("product", product);
         formData.append("nbr", nbr);
         formData.append("problem", problem);
@@ -83,14 +120,14 @@ const AddReclamation = ({ navigation }) => {
         formData.append("userid", auth._id);
         
         const options = {
-            method: "POST",
+            method: "PATCH",
             body: formData,
             headers: {
                 Accept: "application/json",
                 "Content-Type": "multipart/form-data",
             },
         };
-        // console.log(formData);
+        console.log(formData);
 
         let response = await fetch( url, options);
 
@@ -102,6 +139,7 @@ const AddReclamation = ({ navigation }) => {
             Alert.alert("Success", "Reclamation a etait ajouter succes", [
             { text: "fermer" },
             ]);
+            setNew_image(null)
             setImage(null);
             setProduct('');
             setNbr('');
@@ -135,31 +173,35 @@ const AddReclamation = ({ navigation }) => {
 
         <ScrollView>
             <View style={{ paddingHorizontal: "5%", paddingTop: "5%", marginBottom: "20%"}}>
-                <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-between'}}>
-                    {image ? (
-                        <>
-                            <Image
-                                style={{width: "100%", aspectRatio: 4/3, borderRadius: 5, resizeMode: 'contain' }}
-                                source={{ uri: image.uri }} 
-                            />    
-                        </>
-                    ): 
-                        <>
-                            <TouchableOpacity
-                                style={{width: "47.5%", backgroundColor: 'rgba(230,238,241,1)', justifyContent: 'center', alignItems: 'center', height: WindowHeight * 0.2,borderWidth: 1, borderColor: 'white', borderRadius: 5}}
-                                onPress={pickCamera}
-                            >
-                                <Ionicons name='camera-outline' color='black' size={40} />
-                            </TouchableOpacity>
-                            <TouchableOpacity
-                                style={{width: "47.5%", backgroundColor: 'rgba(230,238,241,1)', justifyContent: 'center', alignItems: 'center', height: WindowHeight * 0.2,borderWidth: 1, borderColor: 'white', borderRadius: 5}}
-                                onPress={pickImage}
-                            >
-                                <EvilIcons name='image' color='black' size={50} />
-                            </TouchableOpacity>
-                        </>
-                    }
-                </View>
+            {new_image ? (
+
+                <Image
+                    style={{width: "100%", aspectRatio: 4/3, borderRadius: 5, resizeMode: 'contain' }}
+                    // source={{ uri: `${path}uploads/images/${image}` }} 
+                    source={{ uri: new_image.uri }} 
+                />    
+            ): 
+                <>
+                    <Image
+                        style={{width: "100%", aspectRatio: 4/3, borderRadius: 5, resizeMode: 'contain' }}
+                        source={{ uri: `${path}uploads/images/${image}` }} 
+                    />    
+                    <View style={{width: "100%", flexDirection: 'row', justifyContent: 'space-evenly', marginTop: 20 }}>
+                        <TouchableOpacity
+                            style={{width: "27.5%", backgroundColor: 'rgba(230,238,241,1)', justifyContent: 'center', alignItems: 'center', height: WindowHeight * 0.1,borderWidth: 1, borderColor: 'white', borderRadius: 5}}
+                            onPress={pickCamera}
+                        >
+                            <Ionicons name='camera-outline' color='black' size={40} />
+                        </TouchableOpacity>
+                        <TouchableOpacity
+                            style={{width: "27.5%", backgroundColor: 'rgba(230,238,241,1)', justifyContent: 'center', alignItems: 'center', height: WindowHeight * 0.1,borderWidth: 1, borderColor: 'white', borderRadius: 5}}
+                            onPress={pickImage}
+                        >
+                            <EvilIcons name='image' color='black' size={50} />
+                        </TouchableOpacity>
+                    </View>
+                </>
+            }
 
                 <View style={{marginTop: "5%"}}>
                     
@@ -178,7 +220,7 @@ const AddReclamation = ({ navigation }) => {
                             onChangeText={(text) => setNbr(text)}
                             value={nbr}
                             placeholderTextColor='#6d6e6e'
-                            placeholder="How Many"
+                            placeholder={`${nbr}`}
                             keyboardType="numeric"
                         />
 
@@ -227,7 +269,7 @@ const AddReclamation = ({ navigation }) => {
                         value={problem}
                         multiline
                         editable
-                        maxLength={800}
+                        maxLength={400}
                         numberOfLines={6}
                         placeholderTextColor='#6d6e6e'
                         placeholder="Whats's wrong with the product ?"
@@ -250,7 +292,7 @@ const AddReclamation = ({ navigation }) => {
   )
 }
 
-export default AddReclamation
+export default EditReclamation
 
 const styles = StyleSheet.create({
     background: {

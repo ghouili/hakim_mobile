@@ -11,8 +11,13 @@ const ProviderContext = ({ children }) => {
 
   useEffect( async () => {
     const jsonValue = await AsyncStorage.getItem('user');
-    jsonValue != null ? JSON.parse(jsonValue) : null;
-    setAuth(jsonValue);
+    if(jsonValue){
+      setAuth(JSON.parse(jsonValue));
+    } else {
+
+      setAuth(null);
+    }
+    
   }, [changed]);
 
   const values = {auth, setAuth, setChanged};

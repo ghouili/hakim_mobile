@@ -1,5 +1,6 @@
-import { View, Text, Image, Dimensions } from 'react-native'
 import React from 'react'
+import { View, Text, Image, Dimensions, StyleSheet } from 'react-native'
+import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context'
 
 
@@ -9,6 +10,11 @@ const WindowHeight = Dimensions.get('window').height;
 const Home = () => {
   return (
     <SafeAreaView>
+      <LinearGradient
+        // Background Linear Gradient
+        colors={['rgba(166,223,240, 0.8)', 'transparent']}
+        style={styles.background}
+      />
       <View style={{width: "100%", paddingHorizontal: "3%"}}>
         {/* <Text style={{ fontSize: 25, alignSelf: 'center', marginBottom: "3%"}}>Natilait</Text> */}
         <Image 
@@ -23,3 +29,13 @@ const Home = () => {
 }
 
 export default Home
+
+const styles = StyleSheet.create({
+  background: {
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      top: 0,
+      height: WindowHeight ,
+  },
+})
