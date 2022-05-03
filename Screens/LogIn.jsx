@@ -47,7 +47,7 @@ const LogIn = ({ navigation }) => {
         );
     }
     if(resultData.message === 'success') {
-      setChanged("loggedin");
+      setChanged(new Date());
       const jsonValue = JSON.stringify(resultData.data);
       await AsyncStorage.setItem('user', jsonValue);
       return Alert.alert(

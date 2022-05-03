@@ -8,7 +8,7 @@ const ProviderContext = ({ children }) => {
 
   const [auth, setAuth] = useState(null);
   const [changed, setChanged] = useState(null);
-
+  console.log(auth);
   useEffect( async () => {
     const jsonValue = await AsyncStorage.getItem('user');
     if(jsonValue){

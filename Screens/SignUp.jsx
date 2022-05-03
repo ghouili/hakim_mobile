@@ -1,20 +1,69 @@
-import React, { useContext, } from 'react'
-import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, TextInput } from 'react-native'
+import React, { useContext, useState} from 'react'
+import { StyleSheet, Text, View, Dimensions, Image, TouchableOpacity, TextInput, ScrollView, Alert } from 'react-native'
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import {Card} from 'react-native-shadow-cards';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import { MainContext } from '../Hooks/Context/MainContext';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const WindowWidth = Dimensions.get('window').width;
 const WindowHeight = Dimensions.get('window').height;
 
 const SignUp = ({ navigation }) => {
 
-  const { setAuth } = useContext(MainContext);
+  const { setAuth, setChanged } = useContext(MainContext);
+
+  const [nom, setNom] = useState('');
+  const [prenom, setPrenom] = useState('');
+  const [email, setEmail] = useState('');
+  const [tel, setTel] = useState('');
+  const [adress, setAdress] = useState('');
+  const [password, setPassword] = useState('');
+  // const [birthdate, setbirthdate] = useState(second)
+
+  const register = async () => {
+
+    
+
+        let result = await fetch(`${path}user/register`,
+        {
+            method: 'POST',
+            headers: {
+              "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+              nom: nom,
+              prenom: prenom,
+              adress: adress,
+              tel: tel,
+              email: email,
+              password: password
+            })
+        });
+    
+      let resultData = await result.json();
+      console.log(resultData);
+    if (resultData.success === true) {
+      setChanged(new Date());
+      const jsonValue = JSON.stringify(resultData.data);
+      await AsyncStorage.setItem('user', jsonValue);
+      return Alert.alert(
+          'Success',
+          `Welcome Mr(s) ${resultData.data.email}`,
+          [{ text: 'fermer' }]
+      );
+    } else {
+      Alert.alert("Error", resultData.message, [
+        { text: "fermer" },
+      ]);
+    }
+  }
 
   return (
     <SafeAreaView style={styles.container}>
+      <ScrollView>
       <LinearGradient
         // Background Linear Gradient
         colors={['rgba(166,223,240, 0.8)', 'transparent']}
@@ -40,6 +89,7 @@ const SignUp = ({ navigation }) => {
             placeholder='Nom' 
             placeholderTextColor='#919191'
             autoCapitalize='none'
+            onChangeText={(text) => setNom(text)}
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -51,6 +101,7 @@ const SignUp = ({ navigation }) => {
             placeholder='Prenom' 
             placeholderTextColor='#919191'
             autoCapitalize='none'
+            onChangeText={(text) => setPrenom(text)}
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -62,6 +113,7 @@ const SignUp = ({ navigation }) => {
             placeholder='Adress' 
             placeholderTextColor='#919191'
             autoCapitalize='none'
+            onChangeText={(text) => setAdress(text)}
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -73,6 +125,8 @@ const SignUp = ({ navigation }) => {
             placeholder='Email' 
             placeholderTextColor='#919191'
             autoCapitalize='none'
+            keyboardType='email-address'
+            onChangeText={(text) => setEmail(text)}
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -84,6 +138,8 @@ const SignUp = ({ navigation }) => {
             placeholder='Phone Number' 
             placeholderTextColor='#919191'
             autoCapitalize='none'
+            keyboardType='number-pad'
+            onChangeText={(text) => setTel(text)}
           />
         </Card> 
         <View style={{height: "3%"}}></View>
@@ -95,12 +151,14 @@ const SignUp = ({ navigation }) => {
             placeholder='Password' 
             placeholderTextColor='#919191'
             autoCapitalize='none'
+            secureTextEntry
+            onChangeText={(text) => setPassword(text)}
           />
         </Card> 
 
         <TouchableOpacity  
           style={{marginTop: "8%"}} 
-          onPress={() => setAuth(true)}  
+          onPress={register}  
         >
           <Card 
             style={{width: WindowWidth *0.85, backgroundColor: "#fff", borderRadius: 15, paddingHorizontal: "10%", paddingVertical: "3%", alignItems: 'center'}}
@@ -148,9 +206,10 @@ const SignUp = ({ navigation }) => {
         </View>
         
       </View>
+    </ScrollView>
 
     </SafeAreaView>
-  )
+  ) 
 }
 
 export default SignUp

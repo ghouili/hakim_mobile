@@ -191,9 +191,9 @@ const AddReclamation = ({ navigation }) => {
                                 }
                                 // mode='dropdown'
                             >
-                                <Picker.Item label="Type 01" value="01" />
-                                <Picker.Item label="Type 02" value="02" />
-                                <Picker.Item label="Type 03" value="03" />
+                                <Picker.Item label="Bombage" value="bombage" />
+                                <Picker.Item label="DLC" value="DLC" />
+                                <Picker.Item label="Endommagé" value="endommage" />
                                 <Picker.Item label="autre" value="autre" />
                             </Picker>
                         </View>

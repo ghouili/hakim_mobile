@@ -215,7 +215,7 @@ const Profile = () => {
                     <TextInput
                         style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
                         onChangeText={(text) => setTel(text)}
-                        value={tel}
+                        value={tel.toString()}
                         placeholderTextColor='#6d6e6e'
                         placeholder={`${tel}`}
                         keyboardType="default"
