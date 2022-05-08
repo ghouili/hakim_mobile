@@ -1,5 +1,5 @@
 import React, {useState, useEffect, useContext} from 'react'
-import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Dimensions, Alert, Button } from 'react-native';
+import { StyleSheet, Text, View, Image, TouchableOpacity, TextInput, Dimensions, Alert, Button, ScrollView } from 'react-native';
 import { LinearGradient } from 'expo-linear-gradient';
 import { SafeAreaView } from 'react-native-safe-area-context'
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -17,14 +17,20 @@ const WindowHeight = Dimensions.get('window').height;
 const Profile = () => {
 
     const { auth, setChanged } = useContext(MainContext);
+    const [wrong, setWrong] = useState(false);
     const [password, setPassword] = useState(null);
+    const [currentPassword, setCurrentPassword] = useState(null);
+    const [confirmpassword, setConfirmpassword] = useState(null);
     const [visible1, setVisible1] = useState(false);
     const [image, setImage] = useState(null);
-    const [nom, setNom] = useState('')
-    const [prenom, setPrenom] = useState('')
-    const [email, setEmail] = useState('')
-    const [avatar, setAvatar] = useState('')
-    const [tel, setTel] = useState('')
+    const [nom, setNom] = useState('');
+    const [prenom, setPrenom] = useState('');
+    const [email, setEmail] = useState('');
+    const [avatar, setAvatar] = useState('');
+    const [tel, setTel] = useState('');
+    const [securedold, setSecuredold] = useState(true);
+    const [securednew, setSecurednew] = useState(true);
+    const [securedconf, setSecuredconf] = useState(true);
     
 
     const toggleDialog1 = () => {
@@ -98,9 +104,21 @@ const Profile = () => {
         setChanged('logedout');
     }
 
+    const confirmPass = (text) => {
+        setConfirmpassword(text);
+        if (password !== text){
+            setWrong(true);
+        } else {
+            setWrong(false);
+        }
+    }
 
     const Submit = async () => {
-
+        if (wrong) {
+            return Alert.alert("ERROR", "Confirmed Password doesn't match password", [
+                { text: "fermer" },
+            ]);
+        }
         const url = `${path}user/${auth._id}`;
         const formData = new FormData();
         if(image) {
@@ -114,6 +132,7 @@ const Profile = () => {
         }
         if (password) {
             formData.append("password", password);
+            formData.append("currentPassword", currentPassword);
         }
         formData.append("nom", nom);
         formData.append("email", email);
@@ -146,7 +165,9 @@ const Profile = () => {
             const jsonValue = JSON.stringify(result.data);
             await AsyncStorage.setItem('user', jsonValue);
             setChanged("updated");
-            
+            setCurrentPassword(null);
+            setPassword(null);
+            setConfirmpassword(null);
         } else {
             Alert.alert("Error", result.message, [
             { text: "fermer" },
@@ -163,7 +184,7 @@ const Profile = () => {
             colors={['rgba(166,223,240, 0.8)', 'transparent']}
             style={styles.background}
         />
-            <View style={{width: '100%', padding: 10}}>
+            <ScrollView style={{width: '100%', padding: 10}}>
                 <View style={{width: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between'}}>
                     <TouchableOpacity 
                         style={{width: '25%'}}
@@ -221,17 +242,84 @@ const Profile = () => {
                         keyboardType="default"
                         autoCapitalize='none'
                     />
+                    
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: "4%"}} >
                 
-                    <TextInput
-                        style={{width: '100%', height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                        onChangeText={(text) => setPassword(text)}
-                        // value={data.email}
-                        placeholderTextColor='#6d6e6e'
-                        placeholder="Password"
-                        keyboardType="default"
-                        secureTextEntry
-                        autoCapitalize='none'
-                    />
+                        <TextInput
+                            style={{width: '100%', height: WindowHeight * 0.06, borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                            onChangeText={(text) => setCurrentPassword(text)}
+                            value={currentPassword}
+                            placeholderTextColor='#6d6e6e'
+                            placeholder="Current Password "
+                            keyboardType="default"
+                            secureTextEntry={securedold}
+                            autoCapitalize='none'
+                        />
+                        <TouchableOpacity 
+                            style={{marginLeft: -45}}
+                            onPress={() =>setSecuredold(!securedold) }
+                        >
+                            {securedold ?
+                                <Ionicons name='eye-outline' size={30}  />
+                            :
+                                <Ionicons name='eye-off-outline' size={30}  />
+                            }
+                        </TouchableOpacity>
+                    </View>
+
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: "4%"}} >
+
+                        <TextInput
+                            style={{width: '100%', height: WindowHeight * 0.06, borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                            onChangeText={(text) => setPassword(text)}
+                            value={password}
+                            placeholderTextColor='#6d6e6e'
+                            placeholder="New Password"
+                            keyboardType="default"
+                            secureTextEntry={securednew}
+                            autoCapitalize='none'
+                        />
+                        <TouchableOpacity 
+                            style={{marginLeft: -45}}
+                            onPress={() =>setSecurednew(!securednew) }
+                        >
+                            {securednew ?
+                                <Ionicons name='eye-outline' size={30}  />
+                            :
+                                <Ionicons name='eye-off-outline' size={30}  />
+                            }
+                        </TouchableOpacity>
+
+                    </View>
+                    
+                    <View style={{display: 'flex', flexDirection: 'row', alignItems: 'center'}} >
+                        <TextInput
+                            style={{width: '100%', height: WindowHeight * 0.06, borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
+                            onChangeText={(text) => confirmPass(text)}
+                            // onEndEditing={(text) => confirmPass(text)}
+                            
+                            value={confirmpassword}
+                            placeholderTextColor='#6d6e6e'
+                            placeholder="Confirm Password"
+                            keyboardType="default"
+                            secureTextEntry={securedconf}
+                            autoCapitalize='none'
+                        />
+                        <TouchableOpacity 
+                            style={{marginLeft: -45}}
+                            onPress={() =>setSecuredconf(!securedconf) }
+                        >
+                            {securedconf ?
+                                <Ionicons name='eye-outline' size={30}  />
+                            :
+                                <Ionicons name='eye-off-outline' size={30}  />
+                            }
+                        </TouchableOpacity>
+                    </View>
+                        {wrong &&
+                            <Text style={{color: 'red', fontSize: 13}}> Confirmed Password doesn't match new password</Text>
+                        }
+
                 </View>
                 <TouchableOpacity 
                         style={{width: "40%", alignSelf: 'center', backgroundColor: '#219EBA',  paddingVertical: "3%", marginTop: "5%", alignSelf: 'flex-start', borderRadius: 5}}
@@ -240,7 +328,7 @@ const Profile = () => {
                         <Text style={{fontWeight: '900', color: 'white', alignSelf: 'center', fontSize: 16}}>Save</Text>
                     </TouchableOpacity>
 
-            </View>
+            </ScrollView>
             <FAB
                 style={styles.fab}
                 // small

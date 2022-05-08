@@ -20,7 +20,7 @@ const SignUp = ({ navigation }) => {
   const [email, setEmail] = useState('');
   const [tel, setTel] = useState('');
   const [adress, setAdress] = useState('');
-  const [password, setPassword] = useState('');
+  // const [password, setPassword] = useState('');
   // const [birthdate, setbirthdate] = useState(second)
 
   const register = async () => {
@@ -39,21 +39,21 @@ const SignUp = ({ navigation }) => {
               adress: adress,
               tel: tel,
               email: email,
-              password: password
             })
         });
     
       let resultData = await result.json();
       console.log(resultData);
     if (resultData.success === true) {
-      setChanged(new Date());
-      const jsonValue = JSON.stringify(resultData.data);
-      await AsyncStorage.setItem('user', jsonValue);
-      return Alert.alert(
-          'Success',
-          `Welcome Mr(s) ${resultData.data.email}`,
-          [{ text: 'fermer' }]
+      // setChanged(new Date());
+      // const jsonValue = JSON.stringify(resultData.data);
+      // await AsyncStorage.setItem('user', jsonValue);
+      Alert.alert(
+        'Success',
+        `Votre compte a etait creer merci de consulter votre email`,
+        [{ text: 'fermer' }]
       );
+      return navigation.navigate('Login')
     } else {
       Alert.alert("Error", resultData.message, [
         { text: "fermer" },
@@ -143,7 +143,7 @@ const SignUp = ({ navigation }) => {
           />
         </Card> 
         <View style={{height: "3%"}}></View>
-        <Card 
+        {/* <Card 
           style={{width: WindowWidth *0.85, backgroundColor: "#fff", borderRadius: 15, paddingHorizontal: "3%", paddingVertical: "1.5%"}}
         >
           <TextInput
@@ -154,7 +154,7 @@ const SignUp = ({ navigation }) => {
             secureTextEntry
             onChangeText={(text) => setPassword(text)}
           />
-        </Card> 
+        </Card>  */}
 
         <TouchableOpacity  
           style={{marginTop: "8%"}} 

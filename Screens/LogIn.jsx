@@ -39,14 +39,8 @@ const LogIn = ({ navigation }) => {
     let resultData = await result.json();
     console.log(resultData);
 
-    if (!resultData){
-        return Alert.alert(
-            'ERROR',
-            "Nothing came back",
-            [{ text: 'fermer' }]
-        );
-    }
-    if(resultData.message === 'success') {
+    
+    if(resultData.success === true) {
       setChanged(new Date());
       const jsonValue = JSON.stringify(resultData.data);
       await AsyncStorage.setItem('user', jsonValue);
@@ -55,7 +49,11 @@ const LogIn = ({ navigation }) => {
           `Welcome Mr(s) ${resultData.data.email}`,
           [{ text: 'fermer' }]
       );
-    }  
+    } else {
+      Alert.alert("Error", resultData.message, [
+        { text: "fermer" },
+      ]);
+    } 
   }
 
   return (
