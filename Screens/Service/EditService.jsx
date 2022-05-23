@@ -15,8 +15,7 @@ import { MainContext } from '../../Hooks/Context/MainContext';
 const WindowWidth = Dimensions.get('window').width;
 const WindowHeight = Dimensions.get('window').height;
 
-const EditReclamation = ({ route, navigation }) => {
-
+const EditService = ({ route, navigation }) => {
     let { id } = route.params;
 
     const { auth } = useContext(MainContext);
@@ -31,7 +30,7 @@ const EditReclamation = ({ route, navigation }) => {
 
     const fetchData = async () => {
 
-        let result = await fetch(`${path}reclamation/${id}`);
+        let result = await fetch(`${path}service/${id}`);
 
         let resultData = await result.json();
         // console.log('id sent : ' + route.params.id);
@@ -39,8 +38,6 @@ const EditReclamation = ({ route, navigation }) => {
         if (resultData.success === true ){
             
             setImage(resultData.data.image);
-            setProduct(resultData.data.product);
-            setNbr(resultData.data.nbr);
             setProblem(resultData.data.problem);
             setType(resultData.data.type);
             setPlace(resultData.data.place);
@@ -94,7 +91,7 @@ const EditReclamation = ({ route, navigation }) => {
 
     const Submit = async () => {
 
-        const url = `${path}reclamation/${id}`;
+        const url = `${path}service/${id}`;
 
         const formData = new FormData();
         if(new_image) {
@@ -106,8 +103,7 @@ const EditReclamation = ({ route, navigation }) => {
             name: newImageUri.split("/").pop(),
             });
         }
-        formData.append("product", product);
-        formData.append("nbr", nbr);
+
         formData.append("problem", problem);
         if (type === 'autre'){
             
@@ -141,8 +137,6 @@ const EditReclamation = ({ route, navigation }) => {
             ]);
             setNew_image(null)
             setImage(null);
-            setProduct('');
-            setNbr('');
             setProblem('');
             setType('');
             setPlace('');
@@ -204,25 +198,9 @@ const EditReclamation = ({ route, navigation }) => {
             }
 
                 <View style={{marginTop: "5%"}}>
-                    
-                    <TextInput
-                        style={{height: WindowHeight * 0.06, marginBottom: "4%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700'}}
-                        onChangeText={(text) => setProduct(text)}
-                        value={product}
-                        placeholderTextColor='#6d6e6e'
-                        placeholder="Product Name"
-                        keyboardType="default"
-                    />
+
                     
                     <View style={{ width: '100%', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', marginBottom: "4%"}} >
-                        <TextInput
-                            style={{height: WindowHeight * 0.06, marginBottom: "0%", borderWidth: 1, paddingHorizontal: "5%", borderRadius: 5, backgroundColor: 'rgba(230,238,241,1)', borderColor: 'white', fontSize: 16, fontWeight: '700', width: "47%"}}
-                            onChangeText={(text) => setNbr(text)}
-                            value={nbr.toString()}
-                            placeholderTextColor='#6d6e6e'
-                            placeholder={`${nbr}`}
-                            keyboardType="numeric"
-                        />
 
                         <View style={{borderWidth: 1, borderColor: 'white', width: '47%', borderRadius: 5}} >
                             <Picker
@@ -233,12 +211,15 @@ const EditReclamation = ({ route, navigation }) => {
                                 }
                                 // mode='dropdown'
                             >
-                                <Picker.Item label="Conditionnement" value="conditionnement" />
-                                <Picker.Item label="Dégradation P" value="degradation P" />
-                                <Picker.Item label="Emballage" value="emballage" />
-                                <Picker.Item label="Organoleptique" value="organoleptique" />
-                                <Picker.Item label="Propreté" value="proprete" />
-                                <Picker.Item label="Texture" value="texture" />
+                               <Picker.Item label="Commande" value="commande" />
+                                <Picker.Item label="Communication" value="communication" />
+                                <Picker.Item label="Defaut de Manutention" value="defaut de Manutention" />
+                                <Picker.Item label="Delais de livraison" value="delais de livraison" />
+                                <Picker.Item label="Disponibilite" value="disponibilite" />
+                                <Picker.Item label="Documentation" value="documentation" />
+                                <Picker.Item label="Facturation" value="facturation" />
+                                <Picker.Item label="Quantite NC" value="quantite NC" />
+                                <Picker.Item label="Temperature" value="temperature" />
                                 <Picker.Item label="autre" value="autre" />
                             </Picker>
                         </View>
@@ -295,7 +276,7 @@ const EditReclamation = ({ route, navigation }) => {
   )
 }
 
-export default EditReclamation
+export default EditService
 
 const styles = StyleSheet.create({
     background: {

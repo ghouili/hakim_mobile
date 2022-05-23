@@ -10,6 +10,7 @@ import Home from '../Screens/Home';
 import ReclamNav from './ReclamNav';
 import Suggestion from '../Screens/Suggestion';
 import Profile from '../Screens/Profile';
+import ServiceNav from './ServiceNav';
 
 const Tab = createBottomTabNavigator();
 
@@ -31,12 +32,22 @@ const BottomTabNav = () => {
         }}
       />
         
-      <Tab.Screen name="Reclamation"
+      <Tab.Screen name="Qualite"
         component={ReclamNav}
         options={{
-            tabBarLabel: 'Reclamation',
+            tabBarLabel: 'Qualite',
             tabBarIcon: ({ color, size }) => (
               <Octicons name="report" color={color} size={size} />
+            ),
+        }}
+      />
+      
+      <Tab.Screen name="Services"
+        component={ServiceNav}
+        options={{
+            tabBarLabel: 'Services',
+            tabBarIcon: ({ color, size }) => (
+              <AntDesign name="customerservice" color={color} size={size} />
             ),
         }}
       />

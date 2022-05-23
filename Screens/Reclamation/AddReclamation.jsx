@@ -191,9 +191,12 @@ const AddReclamation = ({ navigation }) => {
                                 }
                                 // mode='dropdown'
                             >
-                                <Picker.Item label="Bombage" value="bombage" />
-                                <Picker.Item label="DLC" value="DLC" />
-                                <Picker.Item label="Endommagé" value="endommage" />
+                                <Picker.Item label="Conditionnement" value="conditionnement" />
+                                <Picker.Item label="Dégradation P" value="degradation P" />
+                                <Picker.Item label="Emballage" value="emballage" />
+                                <Picker.Item label="Organoleptique" value="organoleptique" />
+                                <Picker.Item label="Propreté" value="proprete" />
+                                <Picker.Item label="Texture" value="texture" />
                                 <Picker.Item label="autre" value="autre" />
                             </Picker>
                         </View>

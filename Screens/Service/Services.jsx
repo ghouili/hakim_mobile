@@ -13,14 +13,14 @@ import { MainContext } from '../../Hooks/Context/MainContext';
 const WindowWidth = Dimensions.get('window').width;
 const WindowHeight = Dimensions.get('window').height;
 
-const Reclamation = ({ navigation }) => {
-
+const Services = ({  navigation }) => {
+  
     const { auth } = useContext(MainContext);
     const [data, setData] = useState([]);
 
     const fetch_reclamations = async () => {
         // console.log(auth._id);
-        let result = await fetch(`${path}reclamation`, {
+        let result = await fetch(`${path}service`, {
             method: 'POST',
             headers: {
                 "Content-Type": "application/json"
@@ -56,7 +56,7 @@ const Reclamation = ({ navigation }) => {
         const options = {
             method: "DELETE",
         };
-        let result = await fetch(`${path}reclamation/${id}`, options);
+        let result = await fetch(`${path}service/${id}`, options);
 
         let resultData = await result.json();
 
@@ -111,7 +111,7 @@ const Reclamation = ({ navigation }) => {
                                 />
                             </TouchableOpacity>
                             <View style={{ width: "50%", justifyContent: 'space-between',  }}>
-                                <Text style={{ fontSize: 18, color: '#133C8B', fontWeight: '700' }}>{item.product}</Text>
+                                
                                 <View style={{marginTop: "5%", paddingRight: "1%" }}>
                                     <Text numberOfLines={2} style={{ fontSize: 15, }}> {item.problem}</Text>
                                     <Text style={{ fontSize: 11, color: '#505050' }}> {item.date}</Text>
@@ -157,7 +157,7 @@ const Reclamation = ({ navigation }) => {
   )
 }
 
-export default Reclamation
+export default Services
 
 const styles = StyleSheet.create({
     background: {
