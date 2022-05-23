@@ -7,6 +7,8 @@ import Splach from '../Screens/Splach';
 import LogIn from '../Screens/LogIn';
 import SignUp from '../Screens/SignUp';
 import BottomTabNav from './BottomTabNav';
+import ForgotPassword from '../Screens/ForgotPassword';
+
 
 const Stack = createStackNavigator();
 
@@ -26,6 +28,7 @@ const MainStack = () => {
                 <Stack.Screen name="Splach" component={Splach} />
                 <Stack.Screen name="Login" component={LogIn} />
                 <Stack.Screen name="Signup" component={SignUp} />
+                <Stack.Screen name="Forgot" component={ForgotPassword} />
             </>
         }
     </Stack.Navigator>

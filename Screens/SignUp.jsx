@@ -176,7 +176,7 @@ const SignUp = ({ navigation }) => {
           </TouchableOpacity>
         </View>
 
-        <View style={{width: "100%", paddingHorizontal:  WindowWidth * 0.15, flexDirection: 'row', justifyContent: 'space-between', marginTop: '5%'}}>
+        {/* <View style={{width: "100%", paddingHorizontal:  WindowWidth * 0.15, flexDirection: 'row', justifyContent: 'space-between', marginTop: '5%'}}>
           <TouchableOpacity style={{ alignSelf: 'flex-start'}} >
             <Card 
               style={{ width: WindowWidth * 0.1, backgroundColor: "#fff", borderRadius: 5, alignItems: 'center'}}
@@ -203,7 +203,7 @@ const SignUp = ({ navigation }) => {
               <FontAwesome name='google-plus-square' size={35} color='#FF4627' />
             </Card>
           </TouchableOpacity>
-        </View>
+        </View> */}
         
       </View>
     </ScrollView>

@@ -20,7 +20,12 @@ const Reclamation = ({ navigation }) => {
 
     const fetch_reclamations = async () => {
 
-        let result = await fetch(`${path}reclamation`);
+        let result = await fetch(`${path}reclamation`, {
+            method: 'POST',
+            body: JSON.stringify({
+                id: auth._id
+            })
+        });
 
         let resultData = await result.json();
         // console.log(resultData.data);
@@ -83,7 +88,11 @@ const Reclamation = ({ navigation }) => {
         >
             <AntDesign name='pluscircleo' size={30} color='#000' />
         </TouchableOpacity> */}
-
+            {data.length === 0 ? 
+                <View style={{width: '100%', height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
+                    <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'gray'}} >No Reclamations yet</Text>
+                </View>
+            : null }
             {data.map((item, index) => {
                 return(
                     <View key={index}>

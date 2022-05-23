@@ -1,26 +1,28 @@
-import React, { useState, useEffect} from 'react'
+import React, { useState, useEffect, useContext} from 'react'
 import { View, Text, Image, Dimensions, TouchableOpacity, ScrollView, TextInput, Alert } from 'react-native';import { SafeAreaView } from 'react-native-safe-area-context'
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import Ionicons from 'react-native-vector-icons/Ionicons';
-
+import axios from 'axios';
+import { MainContext } from '../Hooks/Context/MainContext';
 const WindowWidth = Dimensions.get('window').width;
 const WindowHeight = Dimensions.get('window').height;
 
 const Suggestion = () => {
 
+  const {auth} = useContext(MainContext);
   const [message, setMessage] = useState('');
   const [history, setHistory] = useState([]);
 
   const fetchData = async () => {
 
-    let result = await fetch(`${path}suggestion`);
+    let result = await axios.post(`${path}suggestion`, {id: auth._id });
 
-    let resultData = await result.json();
+    // let resultData = await result.json();
 
-    if (resultData.success === true) {
-      setHistory(resultData.data);
+    if (result.data.success === true) {
+      setHistory(result.data.data);
     } else {
-      Alert.alert("Error", resultData.message, [
+      Alert.alert("Error", result.data.message, [
         { text: "fermer" },
       ]);
 
@@ -41,7 +43,7 @@ const Suggestion = () => {
       },
       body: JSON.stringify({
         message: message,
-        userid: '625be2fe1b5c1b37f9b4617f'
+        userid: auth._id
       })
 
       
@@ -94,7 +96,11 @@ const Suggestion = () => {
       <View style={{paddingBottom: "5%", paddingLeft: '4%'}} >
         <Text style={{fontSize: 23, fontWeight: '600'}} >Your suggestions : </Text>
       </View>
-
+      {history.length === 0 ? 
+        <View style={{width: '100%', height: 300, display: 'flex', justifyContent: 'center', alignItems: 'center'}} >
+          <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'gray'}} >No suggestion yet</Text>
+        </View>
+      : null }
   
         {history.map(({message, date}, idx) => {
           return(

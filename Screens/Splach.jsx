@@ -51,7 +51,7 @@ const Splach = ({ navigation }) => {
           </Card>
         </TouchableOpacity>
         
-        <View style={{width: "100%", paddingHorizontal:  WindowWidth * 0.2, flexDirection: 'row', justifyContent: 'space-evenly'}}>
+        {/* <View style={{width: "100%", paddingHorizontal:  WindowWidth * 0.2, flexDirection: 'row', justifyContent: 'space-evenly'}}>
           <TouchableOpacity style={{ alignSelf: 'flex-start'}} >
             <Card 
               style={{ width: WindowWidth * 0.1, backgroundColor: "#fff", borderRadius: 5, alignItems: 'center'}}
@@ -75,7 +75,7 @@ const Splach = ({ navigation }) => {
               <FontAwesome name='google-plus-square' size={35} color='#FF4627' />
             </Card>
           </TouchableOpacity>
-        </View>
+        </View> */}
       </View>
 
     </SafeAreaView>

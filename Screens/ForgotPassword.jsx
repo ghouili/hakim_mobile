@@ -11,7 +11,7 @@ import { MainContext } from '../Hooks/Context/MainContext';
 const WindowWidth = Dimensions.get('window').width;
 const WindowHeight = Dimensions.get('window').height;
 
-const LogIn = ({ navigation }) => {
+const ForgotPassword = ({ navigation }) => {
 
   const { setChanged } = useContext(MainContext);
 
@@ -26,7 +26,7 @@ const LogIn = ({ navigation }) => {
     // const jsonValue = JSON.stringify({name: "amal khdhri", email:"amal.khadroui@gmail.com"});
     // await AsyncStorage.setItem('user', jsonValue);
 
-    let result = await fetch(`${path}user/login`,
+    let result = await fetch(`${path}user/forgotten`,
     {
         method: 'POST',
         headers: {
@@ -34,7 +34,7 @@ const LogIn = ({ navigation }) => {
         },
         body: JSON.stringify({
             email: email,
-            password: password
+            
         })
     });
 
@@ -43,14 +43,15 @@ const LogIn = ({ navigation }) => {
 
     
     if(resultData.success === true) {
-      setChanged(new Date());
-      const jsonValue = JSON.stringify(resultData.data);
-      await AsyncStorage.setItem('user', jsonValue);
-      return Alert.alert(
+    //   setChanged(new Date());
+    //   const jsonValue = JSON.stringify(resultData.data);
+    //   await AsyncStorage.setItem('user', jsonValue);
+        Alert.alert(
           'Success',
-          `Welcome Mr(s) ${resultData.data.email}`,
+          `please check your email`,
           [{ text: 'fermer' }]
-      );
+        );
+        navigation.push('Login');
     } else {
       Alert.alert("Error", resultData.message, [
         { text: "fermer" },
@@ -68,12 +69,12 @@ const LogIn = ({ navigation }) => {
         />
 
         <View style={{height: WindowHeight * 0.4, width: "100%", paddingHorizontal: "5%", alignItems: 'center',  justifyContent: 'center'}}>
-          <Image 
+          {/* <Image 
             style={{width: WindowWidth * 0.5, height: WindowWidth * 0.2 }}
             source={ require('../assets/natilait_logo.png')}
           />
-          <Text style={{fontSize: 25, color: '#0A66C2', fontWeight: '700'}}>Welcome on Board</Text>
-          <Text style={{fontSize: 18, color: '#0A66C2', fontWeight: '600', }}>Sign up on our platform</Text>
+          <Text style={{fontSize: 25, color: '#0A66C2', fontWeight: '700'}}>Welcome on Board</Text> */}
+          <Text style={{fontSize: 18, color: '#0A66C2', fontWeight: '600', }}>Write your email and wait for our rmail to confirm!!</Text>
         </View>
 
         <View style={{ width: "100%", paddingHorizontal: "5%", alignItems: 'center', marginTop: "3%", height: WindowHeight * 0.5, flexDirection: 'column', paddingTop: "10%"}}>
@@ -93,29 +94,7 @@ const LogIn = ({ navigation }) => {
             />
           </Card> 
           
-          <View style={{height: "5%"}}></View>
-          <Card 
-            style={{width: WindowWidth *0.85, backgroundColor: "#fff", borderRadius: 15, paddingHorizontal: "3%", paddingVertical: "1.5%", display: 'flex', flexDirection: 'row', justifyContent: 'space-between'}}
-          >
-            <TextInput
-              style={{fontSize: 16, width: '90%'}}
-              placeholder='Password' 
-              placeholderTextColor='#919191'
-              secureTextEntry={secured}
-              onChangeText={(texte)=> setPassword(texte)}
-              autoCapitalize='none'
-            />
-            <TouchableOpacity 
-              style={{marginLeft: -45}}
-              onPress={() =>setSecured(!secured) }
-            >
-              {!secured ?
-                <Ionicons name='eye-outline' size={30}  />
-              :
-                <Ionicons name='eye-off-outline' size={30}  />
-              }
-            </TouchableOpacity>
-          </Card> 
+          
 
           <TouchableOpacity  
             style={{marginTop: "18%"}}
@@ -125,7 +104,7 @@ const LogIn = ({ navigation }) => {
               style={{width: WindowWidth *0.85, backgroundColor: "#fff", borderRadius: 15, paddingHorizontal: "10%", paddingVertical: "3%", alignItems: 'center'}}
               
             >
-              <Text style={{fontSize: 18, color: '#000576', fontWeight: '700'}}>Log In</Text>
+              <Text style={{fontSize: 18, color: '#000576', fontWeight: '700'}}>Submit</Text>
             </Card>
           </TouchableOpacity>
 
@@ -137,14 +116,32 @@ const LogIn = ({ navigation }) => {
               <Text style={{fontSize: 16, color: '#000576', fontWeight: '600'}} >Sign In</Text>
             </TouchableOpacity>
           </View>
-          <View style={{flexDirection: 'row', marginTop: '1%' }}>
-            <Text style={{fontSize: 16, color: '#808389'}}>Forgot Password? </Text>
-            <TouchableOpacity
-              onPress={() => navigation.navigate('Forgot')}
-            >
-              <Text style={{fontSize: 16, color: '#000576', fontWeight: '600'}} >Forgotten</Text>
+
+          {/* <View style={{width: "100%", paddingHorizontal:  WindowWidth * 0.15, flexDirection: 'row', justifyContent: 'space-between', marginTop: '15%'}}>
+            <TouchableOpacity style={{ alignSelf: 'flex-start'}} >
+              <Card 
+                style={{ width: WindowWidth * 0.1, backgroundColor: "#fff", borderRadius: 5, alignItems: 'center'}}
+              >
+                <FontAwesome name='facebook-square' size={35} color='#129AF7' />
+              </Card>
             </TouchableOpacity>
-          </View>
+
+            <TouchableOpacity style={{ alignSelf: 'flex-start'}} >
+              <Card 
+                style={{ width: WindowWidth * 0.1, backgroundColor: "#fff", borderRadius: 5, alignItems: 'center'}}
+              >
+                <FontAwesome name='linkedin-square' size={35} color='#0A66C2' />
+              </Card>
+            </TouchableOpacity>
+            
+            <TouchableOpacity style={{ alignSelf: 'flex-start'}} >
+              <Card 
+                style={{ width: WindowWidth * 0.1, backgroundColor: "#fff", borderRadius: 5, alignItems: 'center'}}
+              >
+                <FontAwesome name='google-plus-square' size={35} color='#FF4627' />
+              </Card>
+            </TouchableOpacity>
+          </View> */}
           
         </View>
       </ScrollView>
@@ -152,7 +149,7 @@ const LogIn = ({ navigation }) => {
   )
 }
 
-export default LogIn
+export default ForgotPassword
 
 const styles = StyleSheet.create({
   container: {

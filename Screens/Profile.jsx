@@ -259,7 +259,7 @@ const Profile = () => {
                             style={{marginLeft: -45}}
                             onPress={() =>setSecuredold(!securedold) }
                         >
-                            {securedold ?
+                            {!securedold ?
                                 <Ionicons name='eye-outline' size={30}  />
                             :
                                 <Ionicons name='eye-off-outline' size={30}  />
@@ -283,7 +283,7 @@ const Profile = () => {
                             style={{marginLeft: -45}}
                             onPress={() =>setSecurednew(!securednew) }
                         >
-                            {securednew ?
+                            {!securednew ?
                                 <Ionicons name='eye-outline' size={30}  />
                             :
                                 <Ionicons name='eye-off-outline' size={30}  />
@@ -309,7 +309,7 @@ const Profile = () => {
                             style={{marginLeft: -45}}
                             onPress={() =>setSecuredconf(!securedconf) }
                         >
-                            {securedconf ?
+                            {!securedconf ?
                                 <Ionicons name='eye-outline' size={30}  />
                             :
                                 <Ionicons name='eye-off-outline' size={30}  />
