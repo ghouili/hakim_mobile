@@ -4,7 +4,7 @@ import { NavigationContainer } from '@react-navigation/native';
 import { ProviderContext } from './Hooks/Context/MainContext';
 
 import MainStack from './Navigations/MainStack';
-
+import Home from './Screens/Home';
 export default function App() {
 
   global.path = 'http://192.168.1.100:4000/'
@@ -12,7 +12,7 @@ export default function App() {
   return (
     <ProviderContext>
       <NavigationContainer>
-        <MainStack />
+        <Home />
       </NavigationContainer>
     </ProviderContext>
     
